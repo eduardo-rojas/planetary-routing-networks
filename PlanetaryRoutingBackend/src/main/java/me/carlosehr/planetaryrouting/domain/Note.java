@@ -24,11 +24,20 @@ public class Note {
     private String description;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateSubmitted;
+    @JsonFormat(pattern = "HH:mm:ss")
+    private Date timeSubmitted;
 
     @PrePersist
     protected void onCreate(){
         this.dateSubmitted = new Date();
+        this.timeSubmitted = new Date();
 
+    }
+
+    @PreUpdate
+    protected void onUpdate(){
+        this.dateSubmitted = new Date();
+        this.timeSubmitted = new Date();
     }
 
 
@@ -82,4 +91,14 @@ public class Note {
     public void setDateSubmitted(Date dateSubmitted) {
         this.dateSubmitted = dateSubmitted;
     }
+
+    public Date getTimeSubmitted() {
+        return timeSubmitted;
+    }
+
+    public void setTimeSubmitted(Date timeSubmitted) {
+        this.timeSubmitted = timeSubmitted;
+    }
+
+
 }

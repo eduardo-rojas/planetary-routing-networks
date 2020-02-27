@@ -9,10 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -37,6 +34,23 @@ public class NoteController {
 
         Note newNote = noteService.saveNote(note);
         return new ResponseEntity<Note>(note, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{noteId}")
+    public ResponseEntity<?> getNoteById(@PathVariable Long noteId){
+
+        Note note = noteService.findNoteByIdentifier(noteId);
+        return new ResponseEntity<Note>(note, HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public Iterable<Note> getAllNotes(){return noteService.findAllNotes();}
+
+    @DeleteMapping("/{noteId}")
+    public ResponseEntity<?> deleteNote(@PathVariable Long noteId){
+        noteService.deleteNoteByIdentifier(noteId);
+
+        return new ResponseEntity<String>("Note with Id: '" +noteId + "' was deleted.", HttpStatus.OK);
     }
 
 
