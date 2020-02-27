@@ -1,24 +1,36 @@
 package me.carlosehr.planetaryrouting.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
+//This entity class defines trouble ticket notes
 @Entity
 public class Note {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Agent name is required")
     private String agent;
+    @NotBlank(message = "Site information is required")
     private String site;
-    private String noteIdentifier;
+    @Column( unique = true)
+    private Long noteIdentifier;
+    @NotBlank(message = "Note details are required")
     private String description;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateSubmitted;
 
     @PrePersist
     protected void onCreate(){
         this.dateSubmitted = new Date();
+
     }
+
 
     public Note() {
     }
@@ -47,11 +59,11 @@ public class Note {
         this.site = site;
     }
 
-    public String getNoteIdentifier() {
+    public Long getNoteIdentifier() {
         return noteIdentifier;
     }
 
-    public void setNoteIdentifier(String noteIdentifier) {
+    public void setNoteIdentifier(Long noteIdentifier) {
         this.noteIdentifier = noteIdentifier;
     }
 
